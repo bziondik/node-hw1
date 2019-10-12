@@ -49,6 +49,24 @@ const removeDir = (base) => {
     console.log(err.message);
   }
 };
+// TODO remove this if it does not needed
+const removeRedDirecory = (loc) => {
+  const files = fs.readdirSync(loc);
+  try {
+    files.forEach(item => {
+      let localBase = path.join(base, item);
+      let state = fs.statSync(localBase);
+      if (state.isDirectory()) {
+        removeDir(localBase);
+      } else {
+        fs.unlinkSync(localBase);
+      }
+    });
+    fs.rmdirSync(base);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 if (folders.length === 2) {
   try {
