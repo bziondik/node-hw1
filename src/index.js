@@ -68,6 +68,25 @@ const removeRedDirecory = (loc) => {
   }
 };
 
+// adding method to add list of items
+const addListOfItems = (list) => {
+  const files = fs.readdirSync(list);
+  try {
+    files.forEach(item => {
+      let localBase = path.join(base, item);
+      let state = fs.statSync(localBase);
+      if (state.isDirectory()) {
+        addDir(localBase);
+      } else {
+        fs.unlinkSync(localBase);
+      }
+    });
+    fs.addirSync(base);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 if (folders.length === 2) {
   try {
     fs.accessSync(folders[0], fs.constants.R_OK);
